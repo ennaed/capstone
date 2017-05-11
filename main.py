@@ -36,7 +36,7 @@ class MyGrid(GridLayout):
 			self.fetch_data_from_database()
 			self.display_scores()
 		except:
-			label1 = Label(text = 'Error.', valign='middle', halign='center')
+			label1 = Label(text = '\n\nError.', valign='bottom', halign='center')
 			self.add_widget(label1)
 
 
@@ -45,10 +45,9 @@ class MyGrid(GridLayout):
 
 	def display_scores(self):
 		self.clear_widgets()
-		for i in xrange(len(self.data)):
-		    if i < 1:
+		for i in range(-1,len(self.data)):
+		    if i < 0:
 		        row = self.create_header()
-
 		    else:
 		        row = self.create_player_info(i)
 		    for item in row:
@@ -72,36 +71,37 @@ class DumpsiteGrid(GridLayout):
 		super(DumpsiteGrid, self).__init__(**kwargs)	
 		try:
 			self.fetch_data_from_database()
-			#self.display_scores()
+			self.display_scores()
+
 		except:
-			label1 = Label(text = 'Error.', valign='middle', halign='center')
-			self.add_widget(label1)
+		 	label1 = Label(text = '\n\nError.', valign='bottom', halign='center')
+		 	self.add_widget(label1)
 
 
 	def fetch_data_from_database(self):
 		self.data = api.fetch('/dumpsites')
-		for i in self.data:
-			print i['lat']
 
 	def display_scores(self):
 		self.clear_widgets()
-		for i in xrange(len(self.data)):
-		    if i < 1:
+		for i in range(-1,len(self.data)):
+
+		    if i < 0:
 		        row = self.create_header()
 		    else:
+
 		        row = self.create_player_info(i)
 		    for item in row:
 		        self.add_widget(item)
 
-	def create_header(self):
-	    first_column = TableHeader(text='Location')
-	    second_column = TableHeader(text='Dumpsite ID')
 
+	def create_header(self):
+	    first_column = TableHeader(text='Lat, Lon')
+	    second_column = TableHeader(text='Dumpsite ID')
 	    return [first_column, second_column]
 
 	def create_player_info(self, i):
-	    first_column = PlayerRecord(text=str (self.data[i]['lat']) + " " +str(self.data[i]['lon']))
-	    second_column = PlayerRecord(text=self.data[i]['id'])
+	    first_column = PlayerRecord(text=str (self.data[i]['lat'])+ ", " +str(self.data[i]['lon']))
+	    second_column = PlayerRecord(text= str(self.data[i]['id']))
 	    return [first_column, second_column]
 
 
