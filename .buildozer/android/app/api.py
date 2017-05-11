@@ -11,5 +11,15 @@ def get_log(url = 'http://wheresmybasura.herokuapp.com/trucks'):
     parsed_data = ast.literal_eval(response)
     return parsed_data
 
+def get_dumpsite(url = 'http://wheresmybasura.herokuapp.com/view_dumpsites'):
+    response = urllib2.urlopen(url).read()
+    parsed_data = ast.literal_eval(response)
+    return parsed_data
+
+def get_message(url = 'http://wheresmybasura.herokuapp.com/view_messages'):
+    response = urllib2.urlopen(url).read()
+    parsed_data = ast.literal_eval(response)
+    return parsed_data
+
 if __name__ == '__main__':
     print get_log()

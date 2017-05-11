@@ -3,34 +3,25 @@
     background_color: (0.32, 0.19, 0.19, 1.0)
     #size_hint: (0.1,0.1)
 
-<MyBoxLayout@BoxLayout>:
-    bcolor: 0.5,0,0,1
-    canvas.before:
-        Color:
-            rgba: self.bcolor
-        Rectangle:
-            pos: self.pos
-            size: self.size
-
 <PlayerRecord>:
     size_hint_y: None
     height: '30dp'
     width: '150dp'
-    text_size: root.width, None
+    text_size: root.width-50, None
     #size: self.texture_size
 
     canvas.before:
         Color:
             rgb: 0.2, 0.2, 0.2
         Rectangle:
-            pos: self.pos 
-            size: self.size
+            pos: self.pos
+            size: root.size
 
 <TableHeader>
     size_hint_y: None
     height: '30dp'
     width: '150dp'
-    text_size: root.width, None
+    text_size: root.width-50, None
     #size: self.texture_size
 
     canvas.before:
@@ -38,7 +29,7 @@
             rgb: 0.5, 0.5, 0.5
         Rectangle:
             pos: self.pos
-            size: self.size
+            size: root.size
 
 
 
@@ -55,8 +46,16 @@
 	            BoxLayout:
 	            	orientation: 'vertical'
 	            	CustomButton1:
-	                	text: 'View Database'
-	                	on_press: root.onNextScreen(self, "view_screen")
+	                	text: 'View Trucks'
+	                	on_press: root.onNextScreen(self, "view_trucks")
+
+                    CustomButton1:
+                        text: 'View Dumpsites'
+                        on_press: root.onNextScreen(self,"view_dumpsites")
+
+                    CustomButton1:
+                        text: 'View Messages'
+                        #on_press: root.onNextScreen(self,"view_messages")
                         
 	            	CustomButton1:
 	                	text: 'About'
@@ -67,19 +66,27 @@
 	                	on_press: exit()
 
         Screen:
-            name: "view_screen"
+            name: "view_trucks"
+            BoxLayout:
+                orientation: 'vertical'
+                pos_hint: {'center_x': 0.5, 'center_y': 0.9}
+                Label:
+                    text: 'Truck Database'    
+
             RelativeLayout:
-                
-            	size_hint: 0.6,0.5
+            	size_hint: 0.9,0.9
         		pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                
             	ScrollView:
-                    size_hint_y: 0.7
+                    size_hint_y: 0.6
                     GridLayout:
                         size_hint: 1,None
                         height: self.minimum_height
                         cols: 1
                         rows: 2
                         padding: 30,0,30,0
+
+
 
                         MyGrid:
                             cols: 2
@@ -89,7 +96,7 @@
                             spacing: '1dp'
                 BoxLayout:
                     orientation: 'horizontal'
-                    size_hint_y:0.17
+                    size_hint_y:0.15
                     AnchorLayout:
                         size_hint_x: 0.4
                         anchor_x: 'center'
@@ -98,6 +105,48 @@
                             size_hint_y:0.6
                             text: 'Back'
                             on_press: root.onBackBtn()
+
+        Screen:
+            name: "view_dumpsites"
+            BoxLayout:
+                orientation: 'vertical'
+                pos_hint: {'center_x': 0.5, 'center_y': 0.9}
+
+            RelativeLayout:
+                size_hint: 0.9,0.9
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                
+                ScrollView:
+                    size_hint_y: 0.6
+                    GridLayout:
+                        size_hint: 1,None
+                        height: self.minimum_height
+                        cols: 1
+                        rows: 2
+                        padding: 30,0,30,0
+
+                        DumpsiteGrid:
+                            cols: 2
+                            #size_hint_y: None
+                            height: self.minimum_height
+                            width: self.minimum_width
+                            spacing: '1dp'
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y:0.15
+                    AnchorLayout:
+                        size_hint_x: 0.4
+                        anchor_x: 'center'
+                        CustomButton1:
+                            size_hint_x:0.8
+                            size_hint_y:0.6
+                            text: 'Back'
+                            on_press: root.onBackBtn()
+
+            
+                
+                
+
                         
                         
                         

@@ -47,22 +47,61 @@ class MyGrid(GridLayout):
 		self.clear_widgets()
 		for i in xrange(len(self.data)):
 		    if i < 1:
-		        row = self.create_header(i)
+		        row = self.create_header()
+
 		    else:
 		        row = self.create_player_info(i)
 		    for item in row:
 		        self.add_widget(item)
 
-	    	
-
-	def create_header(self, i):
-	    first_column = TableHeader(text=self.data[i]['plate_number'])
-	    second_column = TableHeader(text=self.data[i]['date_created'])
+	def create_header(self):
+	    first_column = TableHeader(text='Plate Number')
+	    second_column = TableHeader(text='Truck ID')
 	    return [first_column, second_column]
 
 	def create_player_info(self, i):
 	    first_column = PlayerRecord(text=self.data[i]['plate_number'])
-	    second_column = PlayerRecord(text=self.data[i]['date_created'])
+	    second_column = PlayerRecord(text=self.data[i]['id'])
+	    return [first_column, second_column]
+
+class DumpsiteGrid(GridLayout):
+
+	cols = NumericProperty()
+
+	def __init__(self, **kwargs):
+		super(DumpsiteGrid, self).__init__(**kwargs)	
+		try:
+			self.fetch_data_from_database()
+			#self.display_scores()
+		except:
+			label1 = Label(text = 'Error.', valign='middle', halign='center')
+			self.add_widget(label1)
+
+
+	def fetch_data_from_database(self):
+		self.data = api.get_dumpsite()
+		for i in self.data:
+			print i['lat']
+
+	def display_scores(self):
+		self.clear_widgets()
+		for i in xrange(len(self.data)):
+		    if i < 1:
+		        row = self.create_header()
+		    else:
+		        row = self.create_player_info(i)
+		    for item in row:
+		        self.add_widget(item)
+
+	def create_header(self):
+	    first_column = TableHeader(text='Location')
+	    second_column = TableHeader(text='Dumpsite ID')
+
+	    return [first_column, second_column]
+
+	def create_player_info(self, i):
+	    first_column = PlayerRecord(text=str (self.data[i]['lat']) + " " +str(self.data[i]['lon']))
+	    second_column = PlayerRecord(text=self.data[i]['id'])
 	    return [first_column, second_column]
 
 

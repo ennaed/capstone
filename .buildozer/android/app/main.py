@@ -42,6 +42,8 @@ class MyGrid(GridLayout):
 
 	def fetch_data_from_database(self):
 		self.data = api.get_log()
+		for i in self.data:
+			print i['plate_number']
 
 	def display_scores(self):
 		self.clear_widgets()
