@@ -1,0 +1,109 @@
+<CustomButton1@Button>:
+    #background_normal: ""
+    background_color: (0.32, 0.19, 0.19, 1.0)
+    #size_hint: (0.1,0.1)
+
+<MyBoxLayout@BoxLayout>:
+    bcolor: 0.5,0,0,1
+    canvas.before:
+        Color:
+            rgba: self.bcolor
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<PlayerRecord>:
+    size_hint_y: None
+    height: '30dp'
+    width: '150dp'
+    text_size: root.width, None
+    #size: self.texture_size
+
+    canvas.before:
+        Color:
+            rgb: 0.2, 0.2, 0.2
+        Rectangle:
+            pos: self.pos 
+            size: self.size
+
+<TableHeader>
+    size_hint_y: None
+    height: '30dp'
+    width: '150dp'
+    text_size: root.width, None
+    #size: self.texture_size
+
+    canvas.before:
+        Color:
+            rgb: 0.5, 0.5, 0.5
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+
+<SmartDumpsite>:  
+    screen_manager: screen_manager
+    ScreenManager:
+        id: screen_manager
+        Screen:
+            name: "home_screen"
+            RelativeLayout:
+            	size_hint: 0.6,0.3
+        		pos_hint: {'center_x': 0.5, 'center_y': 0.23}
+                padding: '40dp'
+	            BoxLayout:
+	            	orientation: 'vertical'
+	            	CustomButton1:
+	                	text: 'View Database'
+	                	on_press: root.onNextScreen(self, "view_screen")
+                        
+	            	CustomButton1:
+	                	text: 'About'
+	                	on_press: root.aboutPopUP()
+
+	                CustomButton1:
+	                	text: 'Exit'
+	                	on_press: exit()
+
+        Screen:
+            name: "view_screen"
+            RelativeLayout:
+                
+            	size_hint: 0.6,0.5
+        		pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            	ScrollView:
+                    size_hint_y: 0.7
+                    GridLayout:
+                        size_hint: 1,None
+                        height: self.minimum_height
+                        cols: 1
+                        rows: 2
+                        padding: 30,0,30,0
+
+                        MyGrid:
+                            cols: 2
+                            #size_hint_y: None
+                            height: self.minimum_height
+                            width: self.minimum_width
+                            spacing: '1dp'
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y:0.17
+                    AnchorLayout:
+                        size_hint_x: 0.4
+                        anchor_x: 'center'
+                        CustomButton1:
+                            size_hint_x:0.8
+                            size_hint_y:0.6
+                            text: 'Back'
+                            on_press: root.onBackBtn()
+                        
+                        
+                        
+                        
+                
+
+
+
+
