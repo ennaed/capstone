@@ -41,7 +41,7 @@ class MyGrid(GridLayout):
 
 
 	def fetch_data_from_database(self):
-		self.data = api.get_log()
+		self.data = api.fetch('/trucks')
 
 	def display_scores(self):
 		self.clear_widgets()
@@ -79,7 +79,7 @@ class DumpsiteGrid(GridLayout):
 
 
 	def fetch_data_from_database(self):
-		self.data = api.get_dumpsite()
+		self.data = api.fetch('/dumpsites')
 		for i in self.data:
 			print i['lat']
 
