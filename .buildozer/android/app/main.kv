@@ -3,11 +3,27 @@
     background_color: (0.32, 0.19, 0.19, 1.0)
     #size_hint: (0.1,0.1)
 
+<CustomLabel@Label>:
+    text_size: self.size
+    halign: 'center'
+    valign: 'middle'
+    color: 0.3, 0.3, 0.3, 0.5
+    size: (root.width, 80)
+
+<MyBoxLayout@BoxLayout>:
+    bcolor: 0.5,0,0,1
+    canvas.before:
+        Color:
+            rgba: self.bcolor
+        Rectangle:
+            pos: self.pos
+            size: self.size    
+
 <PlayerRecord>:
     size_hint_y: None
     height: '30dp'
     width: '150dp'
-    text_size: root.width-50, None
+    text_size: root.width, None
     #size: self.texture_size
 
     canvas.before:
@@ -21,7 +37,7 @@
     size_hint_y: None
     height: '30dp'
     width: '150dp'
-    text_size: root.width-50, None
+    text_size: root.width, None
     #size: self.texture_size
 
     canvas.before:
@@ -39,12 +55,22 @@
         id: screen_manager
         Screen:
             name: "home_screen"
+            BoxLayout:
+                orientation: 'vertical'
+
+                CustomLabel:
+                    text: 'Smart Dumpsite Data Viewer'
+                    
             RelativeLayout:
             	size_hint: 0.6,0.3
         		pos_hint: {'center_x': 0.5, 'center_y': 0.23}
                 padding: '40dp'
+
+
+
 	            BoxLayout:
 	            	orientation: 'vertical'
+
 	            	CustomButton1:
 	                	text: 'View Trucks'
 	                	on_press: root.onNextScreen(self, "view_trucks")
@@ -53,9 +79,9 @@
                         text: 'View Dumpsites'
                         on_press: root.onNextScreen(self,"view_dumpsites")
 
-                    #CustomButton1:
-                        #text: 'View Messages'
-                        #on_press: root.onNextScreen(self,"view_messages")
+                    CustomButton1:
+                        text: 'View Messages'
+                        on_press: root.onNextScreen(self,"view_messages")
                         
 	            	CustomButton1:
 	                	text: 'About'
@@ -67,79 +93,112 @@
 
         Screen:
             name: "view_trucks"
-            BoxLayout:
-                orientation: 'vertical'
-                pos_hint: {'center_x': 0.5, 'center_y': 0.9}
-                Label:
-                    text: 'Truck Database'    
 
-            RelativeLayout:
+            BoxLayout:
             	size_hint: 0.9,0.9
         		pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                
+                orientation: 'vertical'
+                Label:
+                    text: 'List of Trucks' 
+                    size_hint_y: 0.1
+
             	ScrollView:
-                    size_hint_y: 0.6
+                    size_hint_y: 0.5
+                    size: root.size[0], root.size[1]
+
                     GridLayout:
                         size_hint: 1,None
                         height: self.minimum_height
                         cols: 1
                         rows: 2
-                        padding: 30,0,30,0
+                        padding: root.width*0.1, root.width*0.1, root.width*0.1, 0
+                        spacing: 50
                         
                         MyGrid:
                             cols: 2
-                            #size_hint_y: None
+                            size_hint: (None, None)
+                            size_hint_y:  None
                             height: self.minimum_height
-                            width: self.minimum_width
                             spacing: '1dp'
-                BoxLayout:
-                    orientation: 'horizontal'
-                    size_hint_y:0.15
-                    AnchorLayout:
-                        size_hint_x: 0.4
-                        anchor_x: 'center'
+
                         CustomButton1:
-                            size_hint_x:0.8
-                            size_hint_y:0.6
+                            size: (root.width*0.8, 50)
+                            size_hint: (None, None)
                             text: 'Back'
                             on_press: root.onBackBtn()
 
         Screen:
             name: "view_dumpsites"
+                
             BoxLayout:
-                orientation: 'vertical'
-                pos_hint: {'center_x': 0.5, 'center_y': 0.9}
-
-            RelativeLayout:
                 size_hint: 0.9,0.9
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                
+                orientation: 'vertical'
+                Label:
+                    text: 'List of Dumpsites' 
+                    size_hint_y: 0.1
+                    
+
                 ScrollView:
-                    size_hint_y: 0.6
+                    size_hint_y: 0.5
+                    size: root.size[0], root.size[1]
+
                     GridLayout:
                         size_hint: 1,None
                         height: self.minimum_height
                         cols: 1
                         rows: 2
-                        padding: 30,0,30,0
-
+                        padding: root.width*0.1, root.width*0.1, root.width*0.1, 0
+                        spacing: 50
+                        
                         DumpsiteGrid:
-                            cols: 2
-                            #size_hint_y: None
+                            cols: 3
+                            size_hint: (None, None)
+                            size_hint_y:  None
                             height: self.minimum_height
-                            width: self.minimum_width
                             spacing: '1dp'
-                BoxLayout:
-                    orientation: 'horizontal'
-                    size_hint_y:0.15
-                    AnchorLayout:
-                        size_hint_x: 0.4
-                        anchor_x: 'center'
+
                         CustomButton1:
-                            size_hint_x:0.8
-                            size_hint_y:0.6
+                            size: (root.width*0.8, 50)
+                            size_hint: (None, None)
                             text: 'Back'
                             on_press: root.onBackBtn()
+
+        Screen:
+            name: "view_messages"
+
+            BoxLayout:
+                size_hint: 0.9,0.9
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                orientation: 'vertical'
+                Label:
+                    text: 'Message Log' 
+                    size_hint_y: 0.1
+
+                ScrollView:
+                    size_hint_y: 0.5
+                    size: root.size[0], root.size[1]
+
+                    GridLayout:
+                        size_hint: 1,None
+                        height: self.minimum_height
+                        cols: 1
+                        rows: 2
+                        padding: root.width*0.1, root.width*0.1, root.width*0.1, 0
+                        spacing: 50
+                        
+                        MessageGrid:
+                            cols: 3
+                            size_hint: (None, None)
+                            size_hint_y:  None
+                            height: self.minimum_height
+                            spacing: '1dp'
+
+                        CustomButton1:
+                            size: (root.width*0.8, 50)
+                            size_hint: (None, None)
+                            text: 'Back'
+                            on_press: root.onBackBtn()                         
 
             
                 

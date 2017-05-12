@@ -12,4 +12,6 @@ def fetch(endpoint):
     return data
 
 if __name__ == '__main__':
-    print get_log()
+    #print get_log()
+    for i in fetch('/trucks'):
+    	print i['plate_number']

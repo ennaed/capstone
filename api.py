@@ -23,46 +23,31 @@ def get_dumpsites(website = 'http://wheresmybasura.herokuapp.com/', endpoint = '
     return data
 
 def get_processed_data():
-    dumpsite_data = get_dumpsites()
-    trucks_data = get_trucks()
     messages_data = get_messages()
-
-    dumpsites = dict()
-    trucks = dict()
     messages = list()
 
-    for i in dumpsite_data:
-        dumpsites[int(i['id'])] = {'lat': i['lat'], 'lon': i['lon'], 'legal': i['legal']}
-
-    for i in trucks_data:
-        trucks[int(i['id'])] = {'plate_number': i['plate_number']}
 
     for i in messages_data:
-        dumpsite_id = int(i['dumpsite_id'])
-        truck_id = int(i['truck_id'])
-
         date = compress_timestring(i['date_created'])
         date, time = date.split()
-        lat = dumpsites[dumpsite_id]['lat']
-        lon = dumpsites[dumpsite_id]['lon']
+        name = i['dumpsite_name']
+        plate_number = i['plate_number']
 
-        if dumpsites[dumpsite_id]['legal']:
+        dumpsite = filter(lambda x: x['name'] == name, get_dumpsites())[0]
+        if dumpsite['legal']:
             status = 'LEGAL'
         else:
             status = 'ILLEGAL'
 
-        plate_number = trucks[truck_id]['plate_number']
 
-        messages.append({'lat': lat, 'lon': lon, 'status': status, 'plate_number': plate_number, 'date': date, 'time': time})
+        messages.append({'name': name, 'status': status, 'plate_number': plate_number, 'date': date, 'time': time})
 
     return messages
 
 
 
 if __name__ == '__main__':
-
-    #print type(d)
-    # for i in get_processed_data():
-    #      print i['plate_number'], i['time']
-
-    print get_processed_data()
+    d = get_processed_data()
+    print type(d)
+    for i in d:
+        print i, type(i)
