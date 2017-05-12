@@ -15,15 +15,15 @@ from kivy.network.urlrequest import UrlRequest
 from kivy.core.window import Window
 Window.clearcolor = (0.82, 0.82, 0.82, 0.1)
 import api
-
+import api2
 
 
 class TableHeader(Label):
-    pass
+	pass
 
 
 class PlayerRecord(Label):
-    pass
+	pass
 
 
 class MyGrid(GridLayout):
@@ -41,27 +41,30 @@ class MyGrid(GridLayout):
 
 
 	def fetch_data_from_database(self):
-		self.data = api.fetch('/trucks')
+		#self.data = api.get_processed_data()
+		self.data = api2.fetch('/trucks')
+		# for i in self.data:
+		# 	print i['plate_number']
 
 	def display_scores(self):
 		self.clear_widgets()
 		for i in range(-1,len(self.data)):
-		    if i < 0:
-		        row = self.create_header()
-		    else:
-		        row = self.create_player_info(i)
-		    for item in row:
-		        self.add_widget(item)
+			if i < 0:
+				row = self.create_header()
+			else:
+				row = self.create_player_info(i)
+			for item in row:
+				self.add_widget(item)
 
 	def create_header(self):
-	    first_column = TableHeader(text='Plate Number')
-	    second_column = TableHeader(text='Truck ID')
-	    return [first_column, second_column]
+		first_column = TableHeader(text='Plate Number')
+		second_column = TableHeader(text='Truck ID')
+		return [first_column, second_column]
 
 	def create_player_info(self, i):
-	    first_column = PlayerRecord(text=self.data[i]['plate_number'])
-	    second_column = PlayerRecord(text=self.data[i]['id'])
-	    return [first_column, second_column]
+		first_column = PlayerRecord(text=self.data[i]['plate_number'])
+		second_column = PlayerRecord(text=self.data[i]['id'])
+		return [first_column, second_column]
 
 class DumpsiteGrid(GridLayout):
 
@@ -74,35 +77,45 @@ class DumpsiteGrid(GridLayout):
 			self.display_scores()
 
 		except:
-		 	label1 = Label(text = '\n\nError.', valign='bottom', halign='center')
-		 	self.add_widget(label1)
+			label1 = Label(text = '\n\nError.', valign='bottom', halign='center')
+			self.add_widget(label1)
 
 
 	def fetch_data_from_database(self):
-		self.data = api.fetch('/dumpsites')
+		self.data = api2.fetch('/dumpsites')
+		#self.data = api.get_processed_data()
 
 	def display_scores(self):
 		self.clear_widgets()
 		for i in range(-1,len(self.data)):
 
-		    if i < 0:
-		        row = self.create_header()
-		    else:
+			if i < 0:
+				row = self.create_header()
+			else:
 
-		        row = self.create_player_info(i)
-		    for item in row:
-		        self.add_widget(item)
-
+				row = self.create_player_info(i)
+			for item in row:
+				self.add_widget(item)
 
 	def create_header(self):
-	    first_column = TableHeader(text='Lat, Lon')
-	    second_column = TableHeader(text='Dumpsite ID')
-	    return [first_column, second_column]
+		first_column = TableHeader(text='Lat, Lon')
+		second_column = TableHeader(text='ID')
+		third_column = TableHeader(text='Type')
+		return [first_column, second_column, third_column]
 
 	def create_player_info(self, i):
-	    first_column = PlayerRecord(text=str (self.data[i]['lat'])+ ", " +str(self.data[i]['lon']))
-	    second_column = PlayerRecord(text= str(self.data[i]['id']))
-	    return [first_column, second_column]
+		lat = str(self.data[i]['lat'])
+		lat = lat[:6]
+		lon = str(self.data[i]['lon'])
+		lon = lon[:6]
+
+		first_column = PlayerRecord(text= str(lat) + ", " + str(lon))
+		second_column = PlayerRecord(text= str(self.data[i]['id']))
+		if self.data[i]['legal'] == True:
+			third_column = PlayerRecord(text= 'Legal')
+		else:
+			third_column = PlayerRecord(text= 'Illegal')
+		return [first_column, second_column, third_column]
 
 
 class SmartDumpsite(BoxLayout):  
@@ -143,11 +156,11 @@ class MainApp(App):
 
 	def onBackBtn(self, window, key, *args):
 		""" To be called whenever user presses Back/Esc key """
-        # 27 is back press number code
+		# 27 is back press number code
 		if key == 27:
 			return self.root.onBackBtn()
 		return False
 
 
 if __name__ == "__main__":  
-    MainApp().run()       
+	MainApp().run()       

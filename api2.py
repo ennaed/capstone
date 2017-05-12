@@ -1,10 +1,15 @@
 import urllib2
-import ast
+import json
 
-def get_dumpsite(url = 'http://wheresmybasura.herokuapp.com/'):
-    response = urllib2.urlopen(url).read()
-    parsed_data = ast.literal_eval(response)
-    return parsed_data
+# to use this in another file, place this code in the same folder, then do:
+# import api
+# api.get_log()
+
+# returns a list of dicts of the entries from the database
+def fetch(endpoint):
+    response = urllib2.urlopen('http://wheresmybasura.herokuapp.com/' + endpoint).read()
+    data = json.loads(response)
+    return data
 
 if __name__ == '__main__':
-    print get_dumpsite()
+    print get_log()
